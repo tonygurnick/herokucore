@@ -1,0 +1,15 @@
+doctype
+html
+    head
+        title CORE:register
+    body
+        include includes/messages
+
+        form(method='POST',action='/register')
+            label username
+            input#username(name='username',value=username)
+            label password
+            input#password(name='password',value=password)
+            label confirm
+            input#confirm(name='confirm')
+            button#registerUser register

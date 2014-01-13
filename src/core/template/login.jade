@@ -1,0 +1,14 @@
+doctype
+html
+    head
+        title CORE: Login
+        link(rel='stylesheet', href='/page.css')
+    body
+        include includes/messages
+        form(method='POST',action='/login')
+            label username
+            input#username(name='username')
+            label password
+            input#password(name='password')
+
+            button#authenticate login
