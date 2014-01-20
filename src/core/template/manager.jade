@@ -1,0 +1,29 @@
+doctype
+html
+    head
+
+    body
+        h1 user manager
+        if ( messages )
+            p.message(class=messages.type)=messages.text
+            - clear();
+        article#users
+            ol
+                each item in users
+                    li(class=item.username)
+                        h2.username #{item.username}
+                        p.uid (#{item._id})
+                        ol
+                            if (!item.admin)
+                                li
+                                    a.setAsAdmin(href='/admin/setadmin/#{item._id}')
+                                        span.text set as admin
+                            li
+                                a.resetPassword(href='/admin/password/reset/#{item._id}')
+                                    span.text reset password
+                            li
+                                a.delete.icon-close(href='/admin/users?delete=#{item._id}')
+                                    span.text delete
+
+        script(src='/js/lib/jquery-2.0.2.min.js',type='text/javascript')
+

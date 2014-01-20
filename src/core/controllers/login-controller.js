@@ -11,6 +11,7 @@
 
 			if ( user ) {
 				req.session.passport.uid=user._id;
+				req.session.passport.admin=user.admin;
 
 			}
 

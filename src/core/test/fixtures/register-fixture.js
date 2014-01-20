@@ -8,9 +8,15 @@ var config = process.config,
 
 module.exports=function( router ){
 
+
 	router.get('/fix/register', function ( req, res ) {
 
-		User.register( new User({ username : req.query.username }), "password", function(err, User) {
+		var user ={ username : req.query.username };
+		if ( req.query.admin ) {
+			user.admin=true;
+		}
+
+		User.register( new User(user), "password", function(err, User) {
 			res.end("registered "+req.query.username);
 		});
 

@@ -1,5 +1,6 @@
 
 "use strict";
+
 module.exports = function(req,res){
-	res.render( "account" );
+res.json(404).end( "404" );
 };

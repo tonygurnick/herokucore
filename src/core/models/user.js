@@ -11,7 +11,8 @@
 
 	var users = new Schema({
 		"full name": 			String,
-		"email":				String
+		"email":				String,
+		"admin": 				{type:Boolean,default:false}
 	});
 
 	users.plugin(passportLocalMongoose);

@@ -4,12 +4,12 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://localhost:5000" />
-<title>register</title>
+<title>setUserAsAdmin</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">register</td></tr>
+<tr><td rowspan="1" colspan="3">setUserAsAdmin</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
@@ -23,7 +23,52 @@
 </tr>
 <tr>
 	<td>open</td>
-	<td>/register</td>
+	<td>/fix/login?username=admin&amp;admin=true</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForText</td>
+	<td>css=body</td>
+	<td>logged in as admin</td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/fix/register?username=pig</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForText</td>
+	<td>css=body</td>
+	<td>*registered pig*</td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/admin/users</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.pig .setAsAdmin</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForText</td>
+	<td>css=.message.info</td>
+	<td>set user pig as admin</td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForText</td>
+	<td>css=.message</td>
+	<td>*logged out*</td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/login</td>
 	<td></td>
 </tr>
 <tr>
@@ -34,7 +79,7 @@
 <tr>
 	<td>type</td>
 	<td>css=#username</td>
-	<td>peter</td>
+	<td>pig</td>
 </tr>
 <tr>
 	<td>type</td>
@@ -42,35 +87,21 @@
 	<td>password</td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>css=#confirm</td>
-	<td>xxx</td>
-</tr>
-<tr>
 	<td>click</td>
-	<td>css=#registerUser</td>
+	<td>css=#password+button</td>
 	<td></td>
 </tr>
 <tr>
 	<td>waitForText</td>
-	<td>css=.message</td>
-	<td>passwords do not match.</td>
+	<td>css=h1</td>
+	<td>@pig</td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>css=#confirm</td>
-	<td>password</td>
+	<td>assertText</td>
+	<td>css=#admin</td>
+	<td>admin mode</td>
 </tr>
-<tr>
-	<td>click</td>
-	<td>css=#registerUser</td>
-	<td></td>
-</tr>
-<tr>
-	<td>waitForText</td>
-	<td>css=.message</td>
-	<td>username peter registered.</td>
-</tr>
+
 </tbody></table>
 </body>
 </html>

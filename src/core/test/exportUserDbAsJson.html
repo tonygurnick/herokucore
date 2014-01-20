@@ -4,12 +4,12 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://localhost:5000" />
-<title>logout</title>
+<title>exportUserDbAsJson</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">logout</td></tr>
+<tr><td rowspan="1" colspan="3">exportUserDbAsJson</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
@@ -23,33 +23,38 @@
 </tr>
 <tr>
 	<td>open</td>
-	<td>/fix/login?username=alice</td>
+	<td>/fix/login?username=admin&amp;admin=true</td>
 	<td></td>
 </tr>
 <tr>
 	<td>waitForText</td>
 	<td>css=body</td>
-	<td>*logged in as alice*</td>
+	<td>logged in as admin</td>
 </tr>
 <tr>
 	<td>open</td>
-	<td>/account</td>
-	<td></td>
-</tr>
-<tr>
-	<td>waitForElementPresent</td>
-	<td>css=input</td>
-	<td></td>
-</tr>
-<tr>
-	<td>open</td>
-	<td>/logout</td>
+	<td>/fix/register?username=pig</td>
 	<td></td>
 </tr>
 <tr>
 	<td>waitForText</td>
-	<td>css=.message</td>
-	<td>user alice logged out.</td>
+	<td>css=body</td>
+	<td>*registered pig*</td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/admin/export/json</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForText</td>
+	<td>css=body</td>
+	<td>*&quot;username&quot;*:*&quot;admin&quot;*</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>css=body</td>
+	<td>*&quot;username&quot;*:*&quot;pig&quot;*</td>
 </tr>
 </tbody></table>
 </body>

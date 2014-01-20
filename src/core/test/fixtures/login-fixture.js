@@ -12,8 +12,14 @@ module.exports=function( router ){
 
 		console.log("FIXTURE LOGIN".red);
 
+		var user ={ username : req.query.username };
+		if ( req.query.admin ) {
+		   user.admin=true;
+		}
+
+
 		if ( req.query.username ) {
-			User.register( new User({ username : req.query.username }), "password", function(err, User) {
+			User.register( new User(user), "password", function(err, User) {
 				req.body = {
 				  username:req.query.username,
 				  password:"password"
@@ -21,6 +27,7 @@ module.exports=function( router ){
 
 				passport.authenticate('local')(req, res, function () {
 					req.session.passport.uid=User._id;
+					req.session.passport.admin=User.admin;
 					res.end("logged in as " + req.query.username);
 				});
 

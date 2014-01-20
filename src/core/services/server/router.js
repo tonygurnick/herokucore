@@ -1,10 +1,13 @@
 
 "use strict";
 
-var colors = require("colors"),
-	jade = require('jade').__express;
+var config = process.config,
+	colors = require("colors"),
+	jade = require('jade').__express,
+	fs=require("fs"),
+	exist = fs.existsSync;
 
-var config = process.config;
+
 /* Dependencies */
 var express = require('express'),
 
@@ -34,58 +37,60 @@ app.use( passport.session());
 
 
 app.use(function(req, res, next) {
+
+	// Enforce an anonyous user if this session is not authenticated
 	if (!req.session.passport.user) {
-	req.session.passport.user = "anonymous";
-	req.session.passport.uid = null;
+		req.session.passport.user = "anonymous";
+		req.session.passport.uid = null;
+		req.session.passport.admin = false;
 	}
+	// Messages are availible to the jade
 	res.locals.messages = req.session.messages;
-	res.locals.request = req;
+
+	// The user is available to jade
 	res.locals.user={
 		username:req.session.passport.user,
-		uid:req.session.passport.user
+		uid:req.session.passport.uid,
+		admin:req.session.passport.admin
 	};
+
+
+	// Special message clearing for jade
 	res.locals.clear = function(){
 		req.session.messages=undefined;
 	};
 	next();
 });
 
-//
-//var renderProxy = express.response.render;
-//
-//express.response.render = function() {
-//
-//	console.log("RENDER OVERRIDE".blue);
-//
-//
-//
-//	try {
-//		console.log("TRYING: ",config.apptemplates);
-//		app.set('views', config.apptemplates);
-//		return renderProxy.apply(this, arguments);
-//	}
-//	catch (e) {
-//		console.log("TRYING: ",config.templates);
-//		app.set('views',config.templates);
-//		return renderProxy.apply(this, arguments);
-//	} finally{
-//
-//	}
-//
-//};
+var renderProxy = express.response.render;
 
-app.use(app.router);
+express.response.render = function( template ) {
+	 //TODO: parse template name to remove extension
+	console.log("RENDER OVERRIDE ".blue, template);
 
+	console.log("TRYING: ".green, config.templates + template+".jade" );
+	if ( exist( config.templates + template+".jade" ) ){
 
+		console.log("USING APP TEMPLATES".green);
+		app.set('views', config.templates);
+
+	} else {
+		console.log("TRYING: ".green, config.coretemplates + template +".jade" );
+		if ( exist( config.coretemplates + template +".jade") ){
+			console.log("USING CORE TEMPLATES".green);
+			app.set('views', config.coretemplates);
+		} else {
+			throw "template not found: ";
+		}
+
+	}
+
+	return renderProxy.apply(this, arguments);
+};
 passport.use( UserModel.createStrategy());
 passport.serializeUser( UserModel.serializeUser());
 passport.deserializeUser( UserModel.deserializeUser());
 
-
-//
-//require( process.config.app +'fixture')(app );
-//
-//require(process.config.app +"routing")(app );
 
 module.exports=app;
 
