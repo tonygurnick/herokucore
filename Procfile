@@ -1,1 +1,1 @@
-web: node core.js
+web: node src/core/bootstrap.js
