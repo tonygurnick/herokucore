@@ -1,0 +1,17 @@
+.bson
+.idea/
+.bin/
+.DS_Store
+testsuite.html
+results.html
+selenium.log
+npm_debug.log
+.lck
+test.json
+
+POINTING
+workspace.xml
+mongod.lock
+.ns
+local.ns
+j._0
